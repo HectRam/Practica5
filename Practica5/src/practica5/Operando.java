@@ -25,12 +25,13 @@ public class Operando extends Practica5{
     
     
     String[] Direccion(String Operando,String dir, int lin,String moddir,String codop,int BanOrg,String ContLoc,String FCC){
-        String[] Resultado = new String[] {"null","null","null","0000"};
+        String[] Resultado = new String[] {"null","null","null","0000","0000"};
+        String[] Busqueda = new String[] {"null","null"};
         String  b=".err",Mdir="null", Res="null";
         String Byte="null";
         int BanContLoc=0;
         int x=0,y=0,z=0; 
-        boolean banRel=false;
+        boolean banRel=false,MaqBan=false;
         try{
         File f =new File(dir+b);
         FileWriter fw=new FileWriter(f,true);
@@ -530,7 +531,11 @@ public class Operando extends Practica5{
           {
           //DIR
               boolean banDir=false;
+              System.out.println("moddir "+moddir);
+              if(!moddir.equals("REL")){
              int DIR=0;
+           //  System.out.println("Rel?: "+codop);
+             if(!moddir.equals("EXT")){
               ///////////////////////////////////////////////Directo
               if(Operando.matches("^\\$[0-9A-Fa-f]*")||Operando.matches("^\\@[-]*[0-7]*")||Operando.matches("^\\%[10]*")){
                   
@@ -542,7 +547,18 @@ public class Operando extends Practica5{
                   if(DIR>=0&&DIR<=255){
                      banDir=true; 
                   Mdir="DIR";
-                  
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(DIR);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////
                   }
                   }//termina Hexadecimal
                   //Octal
@@ -552,7 +568,18 @@ public class Operando extends Practica5{
                   DIR=Integer.parseInt(dircad,8);  
                   if(DIR>=0&&DIR<=255){ 
                   Mdir="DIR";
-                  
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(DIR);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////
                   }
                   banDir=true;
                   }//termina Octal
@@ -564,6 +591,18 @@ public class Operando extends Practica5{
                   if(DIR>=0&&DIR<=255){
                       banDir=true;
                   Mdir="DIR";
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(DIR);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////
                   }
                   }//termina binario
               }else{
@@ -576,12 +615,25 @@ public class Operando extends Practica5{
                    banDir=true;   
                   Mdir="DIR";
                   
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(DIR);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////
                   }
                   }
                   
-              }
-              
+              }//Termina Directo
+             }
               ///////////////////////////////////////////Extendido
+              if(!moddir.equals("DIR")){
               int EXT=0;
               if(Operando.matches("^\\$[0-9A-Fa-f]*")||Operando.matches("^\\@[-]*[0-7]*")||Operando.matches("^\\%[10]*")){
                   
@@ -593,6 +645,18 @@ public class Operando extends Practica5{
                   if(EXT>=-32768&&EXT<=65535&&!banDir==true){
                       
                   Mdir="EXT";
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(EXT);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////  
                   }
                   }//termina Hexadecimal
                   //Octal
@@ -602,6 +666,18 @@ public class Operando extends Practica5{
                   EXT=Integer.parseInt(dircad,8);  
                   if(EXT>=-32768&&EXT<=65535&&!banDir==true){ 
                   Mdir="EXT";
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(EXT);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////  
                   }
                   
                   }//termina Octal
@@ -613,6 +689,18 @@ public class Operando extends Practica5{
                   if(EXT>=-32768&&EXT<=65535&&!banDir==true){
                      
                   Mdir="EXT";
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(EXT);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////  
                   }
                   }//termina binario
               }else{
@@ -624,14 +712,24 @@ public class Operando extends Practica5{
                   if(EXT>=-32768&&EXT<=65535&&!banDir==true){
                      
                   Mdir="EXT";
-                  
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(EXT);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////                  }
                   }
                   }
-                  
-              }
+              }//Termina Extendido
+             }
               
-              
-              
+             }
           
           
           }//termina Directo y Extendido
@@ -640,7 +738,9 @@ public class Operando extends Practica5{
                               
           if(Operando.matches("^[-]*([0-9a-dA-D])*,[+|-]*([X|x|Y|y|sp|SP|pc|PC])*$")&&BanContLoc!=1||Operando.matches("^[-]*([0-9a-dA-D])*,([X|x|Y|y|sp|SP|pc|PC])*([+|-])*$")&&BanContLoc!=1||Operando.matches("^\\$[0-9A-Fa-f]*,([X|x|Y|y|sp|SP|pc|PC])*[+|-]*$")&&BanContLoc!=1||Operando.matches("^\\$[0-9A-Fa-f]*,([+|-])*([X|x|Y|y|sp|SP|pc|PC])*$")&&BanContLoc!=1||Operando.matches("^\\@[-]*[0-7]*,([+|-])*([X|x|Y|y|sp|SP|pc|PC])*$")&&BanContLoc!=1||Operando.matches("^\\@[-]*[0-7]*,([X|x|Y|y|sp|SP|pc|PC])*[+|-]*$")&&BanContLoc!=1||Operando.matches("^\\%[10]*,([+|-])*([X|x|Y|y|sp|SP|pc|PC])*$")&&BanContLoc!=1||Operando.matches("^\\%[10]*,([X|x|Y|y|sp|SP|pc|PC])*[+|-]*$")&&BanContLoc!=1)
           {
-              banRel=true;
+             // banRel=true;
+              
+              if(!moddir.equals("REL")){
               String IDXcad=null;
               
               StringTokenizer IDX=new StringTokenizer(Operando,",");
@@ -658,7 +758,7 @@ public class Operando extends Practica5{
              // IDXfirst=IDX.nextToken();
               
               if(Operando.matches("^[aAbBdD],[XxYyspSPpcPC]*")){
-                  Mdir="IDXA";//Acumulador
+                  Mdir="IDX";//Acumulador
                   IDXB=true;
                   
               }
@@ -671,7 +771,7 @@ public class Operando extends Practica5{
                    // IDX 5Bits
                  if(IDXint>=-16&&IDXint<=15&&IDXB==false||Operando.matches(" ^,([+|-])*([X|x|Y|y|sp|SP|pc|PC])*[+|-]*$")&&IDXB==false){
                      IDXB=true;
-                     Mdir="IDX5Bits";
+                     Mdir="IDX";
                  }
                  //IDX 9 Bits
                  if(IDXint>=-256&&IDXint<=-17&&IDXB==false||IDXint>=16&&IDXint<=255&&IDXB==false){
@@ -685,7 +785,7 @@ public class Operando extends Practica5{
                  }
                  if(Operando.matches("[0-9]*,([+|-])*([X|x|Y|y|sp|SP])*[+|-]*$")&&IDXB==false){
                      
-                     Mdir="IDX Pre/Post";
+                     Mdir="IDX";
                      //System.out.println("Mdir Pre/Post: "+Mdir);
                  }
                  
@@ -702,7 +802,7 @@ public class Operando extends Practica5{
              // IDXfirst=IDX.nextToken();
               
               if(Operando.matches("^[aAbBdD],[XxYyspSPpcPC]*")){
-                  Mdir="IDXA";//Acumulador
+                  Mdir="IDX";//Acumulador
                   IDXB=true;
                   
               }
@@ -715,7 +815,7 @@ public class Operando extends Practica5{
                    // IDX 5Bits
                  if(IDXint>=-16&&IDXint<=15&&IDXB==false||Operando.matches(" ^,([+|-])*([X|x|Y|y|sp|SP|pc|PC])*[+|-]*$")&&IDXB==false){
                      IDXB=true;
-                     Mdir="IDX5Bits";
+                     Mdir="IDX";
                  }
                  //IDX 9 Bits
                  if(IDXint>=-256&&IDXint<=-17&&IDXB==false||IDXint>=16&&IDXint<=255&&IDXB==false){
@@ -729,7 +829,7 @@ public class Operando extends Practica5{
                  }
                  if(Operando.matches("[0-9]*,([+|-])*([X|x|Y|y|sp|SP])*[+|-]*$")&&IDXB==false){
                      
-                     Mdir="IDX Pre/Post";
+                     Mdir="IDX";
                      //System.out.println("Mdir Pre/Post: "+Mdir);
                  }
                  
@@ -763,7 +863,7 @@ public class Operando extends Practica5{
                    // IDX 5Bits
                  if(IDXint>=-16&&IDXint<=15&&IDXB==false||Operando.matches(" ^,([+|-])*([X|x|Y|y|sp|SP|pc|PC])*[+|-]*$")&&IDXB==false){
                      IDXB=true;
-                     Mdir="IDX5Bits";
+                     Mdir="IDX";
                  }
                  //IDX 9 Bits
                  if(IDXint>=-256&&IDXint<=-17&&IDXB==false||IDXint>=16&&IDXint<=255&&IDXB==false){
@@ -777,7 +877,7 @@ public class Operando extends Practica5{
                  }
                  if(Operando.matches("[0-9]*,([+|-])*([X|x|Y|y|sp|SP])*[+|-]*$")&&IDXB==false){
                      
-                     Mdir="IDX Pre/Post";
+                     Mdir="IDX";
                      //System.out.println("Mdir Pre/Post: "+Mdir);
                  }
                  
@@ -791,7 +891,7 @@ public class Operando extends Practica5{
              // IDXfirst=IDX.nextToken();
               
               if(Operando.matches("^[aAbBdD],[XxYyspSPpcPC]*")){
-                  Mdir="IDXA";//Acumulador
+                  Mdir="IDX";//Acumulador
                   IDXB=true;
                   
               }
@@ -804,7 +904,7 @@ public class Operando extends Practica5{
                    // IDX 5Bits
                  if(IDXint>=-16&&IDXint<=15&&IDXB==false||Operando.matches(" ^,([+|-])*([X|x|Y|y|sp|SP|pc|PC])*[+|-]*$")&&IDXB==false){
                      IDXB=true;
-                     Mdir="IDX5Bits";
+                     Mdir="IDX";
                  }
                  //IDX 9 Bits
                  if(IDXint>=-256&&IDXint<=-17&&IDXB==false||IDXint>=16&&IDXint<=255&&IDXB==false){
@@ -818,7 +918,7 @@ public class Operando extends Practica5{
                  }
                  if(Operando.matches("[0-9]*,([+|-])*([X|x|Y|y|sp|SP])*[+|-]*$")&&IDXB==false){
                      
-                     Mdir="IDX Pre/Post";
+                     Mdir="IDX";
                      //System.out.println("Mdir Pre/Post: "+Mdir);
                  }
                  
@@ -833,6 +933,7 @@ public class Operando extends Practica5{
               }
               }
              }//termina sin base
+          }
           }//termina IDX
           
           /////////////////////////////////////////////////////////////16 Bits Indirecto [IDX2]
@@ -950,6 +1051,18 @@ public class Operando extends Practica5{
                   //System.out.println("Entro A imm8");
                   if(moddir.equals("INM")){
                   Mdir="IMM8";
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(IMM);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////  
                   //return Mdir;
                   if(IMM>=-256&&IMM<=-1){
                        x = IMM;  
@@ -963,7 +1076,18 @@ public class Operando extends Practica5{
                   //System.out.println("Entro A imm16");
                   if(moddir.equals("INM")){
                   Mdir="IMM16";
-                  //return Mdir;
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(IMM);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////  
                   if(IMM>=-32768&&IMM<=-1){
                        x = IMM;  
                        y = ~x;   
@@ -982,7 +1106,18 @@ public class Operando extends Practica5{
                   //System.out.println("Entro A imm8");
                   if(moddir.equals("INM")){
                   Mdir="IMM8";
-                  //return Mdir;
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(IMM);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////
                   if(IMM>=-256&&IMM<=-1){
                        x = IMM;  
                        y = ~x;   
@@ -995,7 +1130,18 @@ public class Operando extends Practica5{
                   //System.out.println("Entro A imm16");
                   if(moddir.equals("INM")){
                   Mdir="IMM16";
-                  //return Mdir;
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(IMM);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////
                   if(IMM>=-32768&&IMM<=-1){
                        x = IMM;  
                        y = ~x;   
@@ -1014,7 +1160,18 @@ public class Operando extends Practica5{
                   //System.out.println("Entro A imm8");
                   if(moddir.equals("INM")){
                   Mdir="IMM8";
-                  //return Mdir;
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(IMM);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////
                   if(IMM>=-256&&IMM<=-1||immcad.matches("^0.*")){
                        x = IMM;  
                        y = ~x;   
@@ -1027,7 +1184,18 @@ public class Operando extends Practica5{
                   //System.out.println("Entro A imm16");
                   if(moddir.equals("INM")){
                   Mdir="IMM16";
-                  //return Mdir;
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(IMM);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////
                   if(IMM>=-32768&&IMM<=-1||immcad.matches("^0.*")){
                        x = IMM;  
                        y = ~x;   
@@ -1047,7 +1215,18 @@ public class Operando extends Practica5{
                   //System.out.println("Entro A imm8");
                       if(moddir.equals("INM")){
                   Mdir="IMM8";
-                  //return Mdir;
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(IMM);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////
                   
                       }
                   }
@@ -1055,7 +1234,19 @@ public class Operando extends Practica5{
                    System.out.println("Entro A imm16"+IMM+"moddir "+moddir);
                       if(moddir.equals("INM")){
                   Mdir="IMM16";
-                  //return Mdir;
+                  
+                  //////////////////// Busqueda de Bytes y CodMaq
+                  String et="null";
+                  String MaqDir= Integer.toHexString(IMM);
+                  MaqDir=fillContLoc(MaqDir);//rellena los
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
+                  int byt=Integer.parseInt(cadby);
+                  int cont=Integer.parseInt(ContLoc,16);
+                  cont=cont+byt;
+                  ContLoc=Integer.toHexString(cont).toUpperCase();
+                  MaqBan=true;
+                  ///////////////////////////////////////////////
                   
                       }
                   }
@@ -1070,7 +1261,7 @@ public class Operando extends Practica5{
           if(Operando.matches("^[0-9a-zA-Z].*")&&banRel==false&&BanContLoc!=1&&!codop.equals("ORG")||Operando.matches("^\\@[0-7]+")&&banRel==false&&BanContLoc!=1&&!codop.equals("ORG")||Operando.matches("^\\%[10]*$")&&banRel==false&&BanContLoc!=1&&!codop.equals("ORG")||Operando.matches("^\\$[0-9A-Fa-f]*")&&banRel==false&&BanContLoc!=1&&!codop.equals("ORG")){
               int REL=0;
               int tam=Operando.length();
-           //  System.out.println("moddir: "+moddir);
+             System.out.println("moddir: "+moddir+" Codop: "+codop+" Operando: "+Operando);
               if(Operando.matches("^\\$[0-9A-Fa-f]*")||Operando.matches("^\\@[0-7]+")||Operando.matches("^\\%[10]*$"))
                 {
                     //Entra Octal
@@ -1101,7 +1292,7 @@ public class Operando extends Practica5{
                    }
                   }
               }
-              else if(codop.matches("^[lL].*")&&REL<=65535&&REL>=-32768){
+              else if(codop.matches("^[lL].*")||REL<=65535&&REL>=-32768){
                    if(moddir.equals("REL")){
                       Mdir="REL16";
                      ;
@@ -1142,7 +1333,7 @@ public class Operando extends Practica5{
                    }
                   }
               }
-              else if(codop.matches("^[lL].*")&&REL<=65535&&REL>=-32768){
+              else if(codop.matches("^[lL].*")||REL<=65535&&REL>=-32768){
                    if(moddir.equals("REL")){
                       Mdir="REL16";
                       if(REL>=-32768&&REL<=-1){
@@ -1210,7 +1401,7 @@ public class Operando extends Practica5{
                         }
                   }
               }
-              else if(codop.matches("^[lL].*")&&REL<=65535&&REL>=-32768){
+              else if(codop.matches("^[lL].*")||REL<=65535&&REL>=-32768){
                    if(moddir.equals("REL")){
                       Mdir="REL16";
                       
@@ -1250,9 +1441,11 @@ public class Operando extends Practica5{
       }
        
           error.close();
-          if(Mdir!="null"&&BanContLoc==0){
-        ///Calcular bytes
-                  String cadby=Bytes(codop,Mdir);
+          if(Mdir!="null"&&BanContLoc==0&&MaqBan==false){
+                  ///Calcular bytes
+                  String MaqDir=" ",et="null";
+                  Busqueda =Bytes(codop,Mdir,MaqDir,et);
+                  String cadby=Busqueda[0];
                   int byt=Integer.parseInt(cadby);
                   int cont=Integer.parseInt(ContLoc,16);
                   cont=cont+byt;
@@ -1269,6 +1462,7 @@ public class Operando extends Practica5{
         Resultado[1]=Res;
         Resultado[2]=Integer.toString(BanOrg);
         Resultado[3]=ContLoc;
+        Resultado[4]=Busqueda[1];//Codigo maquina
        
        System.out.println(" Mdir: "+Resultado[0]+" Res op: "+Resultado[1]+" Ban ORG: "+Resultado[2]+" ContLoc: "+Resultado[3]);
       return Resultado;
@@ -1297,12 +1491,18 @@ public class Operando extends Practica5{
         String oct = Integer.toOctalString(dec);
         return oct;
     }
-    public String Bytes(String codop, String dir){
-                   String Bytes="null";
+    public String[] Bytes(String codop, String dir,String CodMaq,String Etiqueta){
+                   String[] Bytes=new String[]{"null","null"};
         
                        String TABOP="TABOP";
                          String mayus,exCod;
                           dir.toUpperCase();
+                          if(dir.equals("IMM8")||dir.equals("IMM16")){
+                              dir="INM";
+                          }
+                          if(dir.equals("REL8")||dir.equals("REL16")){
+                              dir="REL";
+                          }
                          try{
                              FileInputStream fsaux = new FileInputStream(TABOP+".asm");
                              DataInputStream dsaux = new DataInputStream(fsaux);
@@ -1332,7 +1532,7 @@ public class Operando extends Practica5{
                                       String   sioperS=aucod.nextToken("|");    //Vrifica si lleva operando
                                       int  sioperI=Integer.parseInt(sioperS); //convierte de String a Cadena
                                      String  moddir=aucod.nextToken("|");   //Modo de direccionamiento  
-                                     String  codcal=aucod.nextToken("|");  //Codigo calculado
+                                     String  codcal=aucod.nextToken("|");  //Codigo Maquina calculado
                                     String   bytescal=aucod.nextToken("|"); //Bytes calculados
                                      String  bytesxcal=aucod.nextToken("|");  //Bytes por calcular
                                      String  totbytes=aucod.nextToken("|");  //Total de bytes
@@ -1344,9 +1544,31 @@ public class Operando extends Practica5{
                                        System.out.println(" Total de bytes: "+totbytes);
                               */       
                                        if(dir.equals(moddir)){
-                                           Bytes=bytesxcal;
+                                           Bytes[0]=bytesxcal;
                                        }
-                           
+                                       if(dir.equals(moddir)&&dir.equals("DIR")){
+                                           Bytes[0]=bytesxcal;
+                                           Bytes[1]=codcal+CodMaq;
+                                          // System.out.println("Bytesxcal: "+Bytes[0]+" CodMaq: "+Bytes[1]);
+                                       }
+                                       if(dir.equals(moddir)&&dir.equals("EXT")&&Etiqueta=="null"){
+                                           Bytes[0]=bytesxcal;
+                                           Bytes[1]=codcal+CodMaq;
+                                           //System.out.println("Bytesxcal: "+Bytes[0]+" CodMaq: "+Bytes[1]);
+                                       }
+                                       if(dir.equals(moddir)&&dir.equals("INM")){
+                                           Bytes[0]=bytesxcal;
+                                           Bytes[1]=codcal+CodMaq;
+                                          // System.out.println("Bytesxcal: "+Bytes[0]+" CodMaq: "+Bytes[1]);
+                                       }
+                                       if(dir.equals(moddir)&&dir.equals("REL")){
+                                           Bytes[0]=bytesxcal;
+                                       }
+                                       if(dir.equals(moddir)&&dir.equals("EXT")&&Etiqueta!="null"){
+                                          int conv =Integer.parseInt(CodMaq);
+                                            CodMaq=Integer.toHexString(conv);
+                                           Bytes[1]=codcal+CodMaq; 
+                                       }
                                        }
                                    }
                                    
@@ -1393,6 +1615,41 @@ public class Operando extends Practica5{
         
         
         return compara;
+    }
+    public String TabsimCheck2(String dir, String Etq){
+        
+        
+                         
+                         String mayus,exEtq,ContLoc=null;
+                          
+                         try{
+                             FileInputStream fsaux = new FileInputStream(dir+".tds");
+                             DataInputStream dsaux = new DataInputStream(fsaux);
+                             BufferedReader  braux = new BufferedReader(new InputStreamReader(dsaux));
+                             
+                             String linaux;
+                            
+                             
+                             while((linaux = braux.readLine())!= null){
+                                 
+                                 StringTokenizer aucod = new StringTokenizer(linaux,"|");
+                                        mayus=Etq;
+                                   exEtq=aucod.nextToken();
+                                 
+                                   
+                                   if(exEtq.toUpperCase().compareTo(mayus.toUpperCase())==0&&mayus!="null"&&mayus!=null&&mayus!=" "){
+                                     ContLoc =aucod.nextToken("|");
+                                       System.out.println("ContLoc ins: "+ContLoc);
+                                   }
+                                   
+                                   }
+                             dsaux.close(); 
+                          }catch(Exception r){
+                             System.out.println("Hubo un error en la busqueda de Tabsim "+r);
+                         }
+        
+        
+        return ContLoc;
     }
     
     public String fillContLoc(String ContLoc){
