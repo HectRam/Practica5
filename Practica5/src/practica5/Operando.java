@@ -1670,6 +1670,149 @@ public class Operando extends Practica5{
         }
           return ContLoc;      
         }
+        public String[] fillline(String Lin,String ContLoc,String etiqueta,String codop,String operando,String Mdir){
+        String[] Linea = new String[]{" "," "," "," "," "," "};
+        int size =Lin.length();
+        int size2 =ContLoc.length();
+        int size3 =etiqueta.length();
+        int size4 =codop.length();
+        int size5 =operando.length();
+        int size6 =Mdir.length();
         
+        switch(size){
+            
+            case 1: 
+                Linea[0]="000"+Lin;
+                break;
+            case 2:
+                Linea[0]="00"+Lin;
+                break;
+            case 3:
+                Linea[0]="0"+Lin;
+            case 4:
+                break;
+        }
+        Linea[1]=ContLoc;
+        switch(size3){
+            
+            case 1: 
+                Linea[2]=etiqueta+"       ";
+                break;
+            case 2:
+                Linea[2]=etiqueta+"      ";
+                break;
+            case 3:
+                Linea[2]=etiqueta+"     ";
+                break;
+            case 4:
+                Linea[2]=etiqueta+"    ";
+                break;
+            case 5:
+                Linea[2]=etiqueta+"   ";
+                break;
+            case 6:
+                Linea[2]=etiqueta+"  ";
+                break;
+            case 7:
+                Linea[2]=etiqueta+" ";
+                break;
+            case 8:
+                Linea[2]=etiqueta;
+                break;    
+        }
+        switch(size4){
+            
+            case 1: 
+                Linea[3]=codop+"    ";
+                break;
+            case 2:
+                Linea[3]=codop+"   ";
+                break;
+            case 3:
+                Linea[3]=codop+"  ";
+                break;
+            case 4:
+                Linea[3]=codop+" ";
+                break;
+            case 5:
+                Linea[3]=codop;
+                break;  
+        }
+        switch(size5){
+            
+            case 1: 
+                Linea[4]=operando+"             ";
+                break;
+            case 2:
+                Linea[4]=operando+"            ";
+                break;
+            case 3:
+                Linea[4]=operando+"           ";
+                break;
+            case 4:
+                Linea[4]=operando+"          ";
+                break;
+            case 5:
+                Linea[4]=operando+"         ";
+                break;
+            case 6:
+                Linea[4]=operando+"        ";
+                break;
+            case 7:
+                Linea[4]=operando+"       ";
+                break;
+            case 8:
+                Linea[4]=operando+"      ";
+                break;    
+            case 9:
+                Linea[4]=operando+"     ";
+                break;
+            case 10:
+                Linea[4]=operando+"    ";
+                break;
+                case 11:
+                Linea[4]=operando+"   ";
+                break;
+                case 12:
+                Linea[4]=operando+"  ";
+                break;
+                case 13:
+                Linea[4]=operando+" ";
+                break;
+                case 14:
+                Linea[4]=operando;
+                default:
+                Linea[4]=operando;    
+                break;
+        }
+        switch(size6){
+            
+            case 1: 
+                Linea[5]=Mdir+"       ";
+                break;
+            case 2:
+                Linea[5]=Mdir+"      ";
+                break;
+            case 3:
+                Linea[5]=Mdir+"     ";
+                break;
+            case 4:
+                Linea[5]=Mdir+"    ";
+                break;
+            case 5:
+                Linea[5]=Mdir+"   ";
+                break;
+            case 6:
+                Linea[5]=Mdir+"  ";
+                break;
+            case 7:
+                Linea[5]=Mdir+" ";
+                break;
+            case 8:
+                Linea[5]=Mdir;
+                break;    
+        }
+          return Linea;      
+        }
     }
-
+    
