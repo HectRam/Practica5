@@ -26,13 +26,14 @@ public class Practica5 {
         
         Scanner s = new Scanner(System.in);
         String thisLine,dir,a=".asm",b=".err",i=".inst",ax=null,l=".tds";
-        String[] Resultado = new String[] {"null", "null","null","0000","null"};
+        String[] Resultado = new String[] {"null", "null","null","0000"};
+        String[] Busqueda  = new String[] {"null","null"};
         thisLine = null;
         String ContLoc="0000";
         int poslin=0,c=0,pos=0,banbuffer=0,banCod=0,sioperI=2,operval=0,BanOrg=0,compara=0,tam2=0;
         espacios es;
         Operando op;
-        
+        String CodMaq="null";
         String etiqueta = null, codop = null, operando = null, comentario=null,linToken=null,codoplin=null,sioperS=null,codopprue=null,Mdir=null,FCC="";
         String exEt=null,exCod=null,moddir=null,codcal=null,bytescal=null,bytesxcal=null,totbytes=null,samecod=null,dircod=null,samecod2=null,Res="null";
         Vector<String> cadena;
@@ -197,7 +198,7 @@ public class Practica5 {
                                          sioperS=aucod.nextToken("|");    //Vrifica si lleva operando
                                         sioperI=Integer.parseInt(sioperS); //convierte de String a Cadena
                                        moddir=aucod.nextToken("|");   //Modo de direccionamiento  
-                                       codcal=aucod.nextToken("|");  //Codigo calculado
+                                       codcal=aucod.nextToken("|");  //Codigo maquina calculado
                                        bytescal=aucod.nextToken("|"); //Bytes calculados
                                        bytesxcal=aucod.nextToken("|");  //Bytes por calcular
                                        totbytes=aucod.nextToken("|");  //Total de bytes
@@ -218,14 +219,16 @@ public class Practica5 {
                                            if(moddir.equals("INH")){
                                                modosdir.write(moddir+" ");
                                                operval=1;
+                                               CodMaq=codcal;//codigo maquina
                                               // System.out.println("Codop "+codop+" Operando"+moddir);
                                            }
                                            if(moddir.equals("INM")&&sioperI==0){
                                                modosdir.write(moddir+" ");
                                                operval=1;
                                                moddir="INM";
+                                               CodMaq=codcal;//codigo maquina
                                            }
-                                           if(moddir.equals("INM")||moddir.equals("REL")){
+                                           if(moddir.equals("INM")||moddir.equals("REL")||moddir.equals("EXT")||moddir.equals("DIR")){
                                               
                                                maux=moddir;
                                            }
@@ -293,6 +296,7 @@ public class Practica5 {
                                     Res=Resultado[1];
                                     BanOrg=Integer.parseInt(Resultado[2]);
                                     ContLoc=Resultado[3];
+                                    CodMaq=Resultado[4];
                                     // System.out.println("Modo de direccion "+Mdir);
                                      
                                      if(codop.equals(" ")){
@@ -451,6 +455,7 @@ public class Practica5 {
                       if(Mdir!=null){
                           codoplin=Mdir;
                       }
+                      
                       if(codoplin!="null"){
                         if(codop!="null"&&etiqueta!="null"&&operando!="null"){
                      // System.out.println("Codop Equ: tronador04"+codop);
@@ -458,18 +463,24 @@ public class Practica5 {
                       if(compara==0){
                       tabsim.write(etiqueta+"|"+ContLoc);
                       tabsim.newLine();
-                      } 
+                      
+                      }
+                      if(codoplin.equals("EXT")&&etiqueta!="null"){
+                          String Con=op.TabsimCheck2(dir,etiqueta);
+                          Busqueda =op.Bytes(codop, codoplin, Con, etiqueta);
+                          
+                      }
                       }
                         if(compara==0){
                       if(Res!="null"){
                      //inserta resultado de Operando 
                       operando=Res;
-                  System.out.println(c+"  co  "+ContLoc+"  ee  "+etiqueta+"  cc  "+codop+"  oo  "+operando+"      "+codoplin);
-                  instrucciones.write(c+"      "+ContLoc+"      "+etiqueta+"      "+codop+"      "+operando+"      "+codoplin);
+                  System.out.println(c+"  co  "+ContLoc+"  ee  "+etiqueta+"  cc  "+codop+"  oo  "+operando+"  op  "+codoplin+"  cm  "+CodMaq);
+                  instrucciones.write(c+"      "+ContLoc+"      "+etiqueta+"      "+codop+"      "+operando+"      "+codoplin+"      "+CodMaq);
                   instrucciones.newLine();
                       }else{
-                  System.out.println(c+"  co  "+ContLoc+"  ee  "+etiqueta+"  cc  "+codop+"  oo  "+operando+"      "+codoplin);
-                  instrucciones.write(c+"      "+ContLoc+"      "+etiqueta+"      "+codop+"      "+operando+"      "+codoplin);
+                  System.out.println(c+"  co  "+ContLoc+"  ee  "+etiqueta+"  cc  "+codop+"  oo  "+operando+"  op  "+codoplin+"  cm  "+CodMaq);
+                  instrucciones.write(c+"      "+ContLoc+"      "+etiqueta+"      "+codop+"      "+operando+"      "+codoplin+"      "+CodMaq);
                   instrucciones.newLine();  
                       }
                        }
@@ -512,6 +523,7 @@ public class Practica5 {
                      Mdir=null;
                      operval=0;
                      compara=0;
+                     CodMaq=" ";
                      if(linToken.matches(".*END.*")||linToken.matches(".*End.*")||linToken.matches(".*end.*")){//verifica si tiene End
                            banEnd = true;
                            System.out.println("Entro End");
