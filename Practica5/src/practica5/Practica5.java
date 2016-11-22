@@ -28,6 +28,7 @@ public class Practica5 {
         String thisLine,dir,a=".asm",b=".err",i=".inst",ax=null,l=".tds";
         String[] Resultado = new String[] {"null", "null","null","0000"};
         String[] Busqueda  = new String[] {"null","null"};
+        String[] Linea = new String[]{" "," "," "," "," "," "};
         thisLine = null;
         String ContLoc="0000";
         int poslin=0,c=0,pos=0,banbuffer=0,banCod=0,sioperI=2,operval=0,BanOrg=0,compara=0,tam2=0;
@@ -72,7 +73,7 @@ public class Practica5 {
             banderalim=false;
             banEt=false;
             //System.out.println("Linea---ETQ-----CODOP-----OPER---");
-            instrucciones.write("Linea---CONTLOC---ETQ-----CODOP-----OPER-----MODOS");
+            instrucciones.write("Linea-----CONTLOC----ETQ---------CODOP----------OPER------------ModDir---------CodiMaq");
             instrucciones.newLine();
            // tabsim.write("Etiqueta|Valor");
            // tabsim.newLine();
@@ -475,12 +476,16 @@ public class Practica5 {
                       if(Res!="null"){
                      //inserta resultado de Operando 
                       operando=Res;
-                  System.out.println(c+"  co  "+ContLoc+"  ee  "+etiqueta+"  cc  "+codop+"  oo  "+operando+"  op  "+codoplin+"  cm  "+CodMaq);
-                  instrucciones.write(c+"      "+ContLoc+"      "+etiqueta+"      "+codop+"      "+operando+"      "+codoplin+"      "+CodMaq);
+                      String nu=Integer.toString(c);
+                      Linea=op.fillline(nu, ContLoc, etiqueta, codop, operando, codoplin);
+                  System.out.println(Linea[0]+"  co  "+Linea[1]+"  ee  "+Linea[2]+"  cc  "+Linea[3]+"  oo  "+Linea[4]+"  op  "+Linea[5]+"  cm  "+CodMaq);
+                  instrucciones.write(Linea[0]+"      "+Linea[1]+"      "+Linea[2]+"      "+Linea[3]+"      "+Linea[4]+"      "+Linea[5]+"      "+CodMaq);
                   instrucciones.newLine();
                       }else{
-                  System.out.println(c+"  co  "+ContLoc+"  ee  "+etiqueta+"  cc  "+codop+"  oo  "+operando+"  op  "+codoplin+"  cm  "+CodMaq);
-                  instrucciones.write(c+"      "+ContLoc+"      "+etiqueta+"      "+codop+"      "+operando+"      "+codoplin+"      "+CodMaq);
+                          String nu=Integer.toString(c);
+                      Linea=op.fillline(nu, ContLoc, etiqueta, codop, operando, codoplin);
+                  System.out.println(Linea[0]+"  co  "+Linea[1]+"  ee  "+Linea[2]+"  cc  "+Linea[3]+"  oo  "+Linea[4]+"  op  "+Linea[5]+"  cm  "+CodMaq);
+                  instrucciones.write(Linea[0]+"      "+Linea[1]+"      "+Linea[2]+"      "+Linea[3]+"      "+Linea[4]+"      "+Linea[5]+"      "+CodMaq);
                   instrucciones.newLine();  
                       }
                        }
